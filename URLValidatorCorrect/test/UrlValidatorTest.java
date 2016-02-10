@@ -40,8 +40,20 @@ public class UrlValidatorTest extends TestCase {
       }
    }
 
+   /*
+    * testUrlParts is an array of arrays with objects in them it is defined as:
+    * 	testUrlParts = {testUrlScheme, testUrlAuthority, testUrlPort, testPath, testUrlQuery};
+    * 		testUrlScheme: array of result pairs for first part of the url contains valid url segments (ftp://, http://, etc.) and invalid ones (3ht://, ://, etc.).
+    * 		testUrlAuthority: array of result pairs for the address portion of the url, contains valid (255.255.255.255, 255.com, etc.) and invalid ones (256.256.256.256, 1.2.3.4.5, etc.)
+    * 		testUrlPort: array of result pairs for the port portion of the url, contains valid (:65636, etc.) and invalid ports (:-1, :65a)
+    * 		testPath: array of result pairs for the path portion of the url, contains valid (/test1/, /test1/file, etc.) and invalid (/../, /..//file, etc.) paths.
+    * 		testUrlQuery: array of result pairs for the url query portion of the url, contains valid only valid queries (?action=view, ?action=edit&mode=up).
+    * 
+    * ALLOW_ALL_SCHEMES: I am pretty sure this is set to 1. From what I read the << operator takes a bit from the left and shifts it over the number of bits defined on the right.
+    * 		In the case of ALLOW_ALL_SCHEMES it is 1 << 0, which means shift 1 over 0 bits, so its 1. 
+    */
    public void testIsValid() {
-        testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
+        testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);				// We are calling the 'testIsValid' method that accepts two arguments. 
         setUp();
         //long options =
         //    UrlValidator.ALLOW_2_SLASHES
@@ -55,14 +67,14 @@ public class UrlValidatorTest extends TestCase {
       if (printStatus) {
          System.out.print("\n testIsValidScheme() ");
       }
-      String[] schemes = {"http", "gopher"};
+      String[] schemes = {"http", "gopher"};									// Define two schemes to look for.
       //UrlValidator urlVal = new UrlValidator(schemes,false,false,false);
-      UrlValidator urlVal = new UrlValidator(schemes, 0);
-      for (int sIndex = 0; sIndex < testScheme.length; sIndex++) {
-         ResultPair testPair = testScheme[sIndex];
-         boolean result = urlVal.isValidScheme(testPair.item);
-         assertEquals(testPair.item, testPair.valid, result);
-         if (printStatus) {
+      UrlValidator urlVal = new UrlValidator(schemes, 0);						// Create a new UrlValidator instance and pass http and gopher to it.
+      for (int sIndex = 0; sIndex < testScheme.length; sIndex++) {				// Loop through each scheme defined at bottom of document, http, ftp, etc.
+         ResultPair testPair = testScheme[sIndex];								// Get the current scheme into a temp variable.
+         boolean result = urlVal.isValidScheme(testPair.item);					// Compare temp scheme to schemes inside our urlVal, which should be http/gopher.
+         assertEquals(testPair.item, testPair.valid, result);					// We are asserting that the temp variables value (http, etc.) and its valid value equals the result we got back from comparing the temp scheme with our urlVal data.
+         if (printStatus) {														// printStatus is false (defined at top) so not going to print.
             if (result == testPair.valid) {
                System.out.print('.');
             } else {
@@ -70,7 +82,7 @@ public class UrlValidatorTest extends TestCase {
             }
          }
       }
-      if (printStatus) {
+      if (printStatus) {														// print status is false so not going to print.
          System.out.println();
       }
 
@@ -83,32 +95,32 @@ public class UrlValidatorTest extends TestCase {
     * @param testObjects Used to create a url.
     */
    public void testIsValid(Object[] testObjects, long options) {
-      UrlValidator urlVal = new UrlValidator(null, null, options);
-      assertTrue(urlVal.isValid("http://www.google.com"));
-      assertTrue(urlVal.isValid("http://www.google.com/"));
+      UrlValidator urlVal = new UrlValidator(null, null, options);				// Create new urlVal object, 
+      assertTrue(urlVal.isValid("http://www.google.com"));						// Asserting google.com is true
+      assertTrue(urlVal.isValid("http://www.google.com/"));						// Asserting google.com/ is true
       int statusPerLine = 60;
       int printed = 0;
       if (printIndex)  {
          statusPerLine = 6;
       }
       do {
-         StringBuffer testBuffer = new StringBuffer();
+         StringBuffer testBuffer = new StringBuffer();							// Creating a new string.
          boolean expected = true;
-         for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
-            int index = testPartsIndex[testPartsIndexIndex];
-            ResultPair[] part = (ResultPair[]) testObjects[testPartsIndexIndex];
-            testBuffer.append(part[index].item);
-            expected &= part[index].valid;
+         for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {		// Loop through each value in testPartsIndex (defined below as an array with 5 zeros).
+            int index = testPartsIndex[testPartsIndexIndex];						// I believe this always will set index to 0, testPartsIndex is an array of 5 0's.
+            ResultPair[] part = (ResultPair[]) testObjects[testPartsIndexIndex];	// Cast the value stored in testObjects (passed to method) array at current index to a result pair, and save it in 'part'
+            testBuffer.append(part[index].item);									// Add the value of the part at index 0 to the end of the test buffer.
+            expected &= part[index].valid;											// Set expected equal to expected and validity of part at index 0, this statement is equal to expected = expected && part[index].valid
          }
          //System.out.println(testPartsIndex[0]);
-         String url = testBuffer.toString();
-         boolean result = urlVal.isValid(url);
+         String url = testBuffer.toString();										// Convert the buffer array to a string.
+         boolean result = urlVal.isValid(url);										// Call isValid method on the string we made.
          
-         if(result == true)
+         if(result == true)															// If the url is valid print the url out.
         	 System.out.println(url);
-         assertEquals(url, expected, result);
+         assertEquals(url, expected, result);										
          
-         if (printStatus) {
+         if (printStatus) {															// If print result is true (set to false above) print the results out.
             if (printIndex) {
                //System.out.print(testPartsIndextoString());
             } else {
@@ -124,7 +136,7 @@ public class UrlValidatorTest extends TestCase {
                printed = 0;
             }
          }
-      } while (incrementTestPartsIndex(testPartsIndex, testObjects));
+      } while (incrementTestPartsIndex(testPartsIndex, testObjects));				// Call the incrementTestPartsIndex method.
       if (printStatus) {
          System.out.println();
       }
@@ -267,14 +279,17 @@ public class UrlValidatorTest extends TestCase {
     }
 
     
+   // testPartsIndex, an array of 5 0's.
+   // testParts, an array of test objects as defined above.
+   // 
    static boolean incrementTestPartsIndex(int[] testPartsIndex, Object[] testParts) {
       boolean carry = true;  //add 1 to lowest order part.
       boolean maxIndex = true;
       for (int testPartsIndexIndex = testPartsIndex.length - 1; testPartsIndexIndex >= 0; --testPartsIndexIndex) {
-         int index = testPartsIndex[testPartsIndexIndex];
+         int index = testPartsIndex[testPartsIndexIndex];						// Will be 0, since each value in testPartsIndex = 0.
          ResultPair[] part = (ResultPair[]) testParts[testPartsIndexIndex];
          if (carry) {
-            if (index < part.length - 1) {
+            if (index < part.length - 1) {						// part.length, part is a single test part from the testParts array.
                index++;
                testPartsIndex[testPartsIndexIndex] = index;
                carry = false;
