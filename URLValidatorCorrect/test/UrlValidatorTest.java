@@ -298,11 +298,11 @@ public class UrlValidatorTest extends TestCase {
                carry = true;
             }
          }
-         maxIndex &= (index == (part.length - 1));
+         maxIndex &= (index == (part.length - 1));				// maxIndex = maxIndex && (index == (part.length - 1)), if index which is 4 == part.length -1.
       }
 
 
-      return (!maxIndex);
+      return (!maxIndex);										// Return opposite of maxIndex.
    }
 
    private String testPartsIndextoString() {
