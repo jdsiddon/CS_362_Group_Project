@@ -1,0 +1,31 @@
+Potential Bugs:
+DomainValidator.java -> COUNTRY_CODE_TLDS only goes until italy, it is missing
+all the countries after that.
+
+InetAddressValidator -> The bottom, line 94 returns true when it should be false - > causing 256 to pass when it should not
+
+if (iIpSegment > 255) {
+
+  return true;
+
+}
+
+
+
+urlValidator -> This is causing the query failures in the random tester
+protected boolean isValidQuery(String query) {
+    if (query == null) {
+        return true;
+    }
+
+    return !QUERY_PATTERN.matcher(query).matches();
+}
+
+should return QUERY_PATTERN.matcher(query).matches(); for correct results
+
+
+
+urlValidator ->     private static final String PORT_REGEX = "^:(\\d{1,3})$";
+ should be     private static final String PORT_REGEX = "^:(\\d{1,5})$";
+
+ this is causing ports with length 4 or 5 to fail when they should pass.
