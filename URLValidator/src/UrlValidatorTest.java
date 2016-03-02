@@ -45,17 +45,86 @@ public class UrlValidatorTest extends TestCase {
 
 
    }
-
-
-   public void testYourFirstPartition()
+  
+   /********* 
+    * Query partitions
+    *********/
+   public String validEmptyQueryPartition()
    {
-
+	   return " ";
+   }
+   
+   public String validQueryPartition()
+   {
+	   return "?test=123";
+   }
+   
+   
+   /********* 
+    * Path partitions
+    *********/
+   public String validPathPartition()
+   {
+	   return "/test";
+   }
+   
+   public String invalidPathPartition()
+   {
+	   return " ";
    }
 
-   public void testYourSecondPartition(){
-
+   /********* 
+    * Scheme partitions
+    *********/
+   public String validSchemePartition()
+   {
+	   return "http://";
+   }
+   
+   public String misspelledSchemePartition()
+   {
+	   return "htt://";
+   }
+   
+   public String badStructureSchemePartition()
+   {
+	   return "http//";
+   }
+   
+   public String emptySchemePartition()
+   {
+	   return " ";
    }
 
+   
+   /********* 
+    * Authority partitions
+    *********/
+   public String invalidDomainAuthority() 
+   {
+	   return " ";
+   }
+   
+   public String validDomainAuthority()
+   {
+	   return "google.com";
+   }
+   
+   public String aboveValidIpAuthority() 
+   {
+	   return "256.255.255.255";
+   }
+   
+   public String validIpAuthority() 
+   {
+	   return "255.255.255.255";
+   }
+   
+   public String belowValidIpAuthority() {
+	   return "0.0.0";
+   }
+   
+   
 
    public void testIsValid()
    {

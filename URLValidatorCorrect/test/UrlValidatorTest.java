@@ -344,7 +344,7 @@ public class UrlValidatorTest extends TestCase {
       UrlValidatorTest fct = new UrlValidatorTest("url test");
       fct.setUp();
       fct.testIsValid();
-      fct.testIsValidScheme();
+//      fct.testIsValidScheme();
    }
    //-------------------- Test data for creating a composite URL
    /**
