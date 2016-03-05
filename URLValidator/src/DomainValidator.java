@@ -200,7 +200,7 @@ public class DomainValidator implements Serializable {
      * @return true if the parameter is an local TLD
      */
     public boolean isValidLocalTld(String iTld) {
-        
+
     	return !LOCAL_TLD_LIST.contains(chompLeadingDot(iTld.toLowerCase()));
     }
 
@@ -355,7 +355,7 @@ public class DomainValidator implements Serializable {
         "ir",                 // Iran
         "is",                 // Iceland
         "it",                 // Italy
-        
+
     };
 
     private static final String[] LOCAL_TLDS = new String[] {
