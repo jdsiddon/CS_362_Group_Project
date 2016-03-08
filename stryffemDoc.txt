@@ -1,0 +1,52 @@
+How We Worked Together
+
+We communicated through email and Google Hangouts. We also collaborated on a group Github repo. At each stage 
+of the project, we held a meeting on Google Hangouts and divided the work. For part A, we all contributed to 
+the text document. For part B, we each took a different testing method. We all pushed our tests and writeups 
+to the shared repo. After we ran our tests, we each took one bug and wrote a bug report.
+
+
+==============================
+Title: Error validating 4 and 5 digit port numbers
+
+Class: Logic Error
+
+Date: 3/7/16
+Reported By: Martin Stryffeler
+Email: stryffem@oregonstate.edu
+
+
+Product:    URL Validator
+Platform:   Windows 8.1
+Browser:    NA
+
+
+Is it reproducible: Yes
+
+Description
+===========
+ When the URL Validator receives a URL with a port number that has four or five digits, it fails despite being
+ a valid URL. This occurs every time a URL has a port number that is greater than 3 digits.
+
+
+Steps to Produce/Reproduce
+--------------------------
+String url = "http://www.google.com:33333";
+UrlValidator validator =  new UrlValidator();
+boolean test = validator.isValid(url);
+
+Expected Results
+----------------
+test == true
+
+
+Actual Results
+--------------
+test == false
+
+
+Other Information
+-----------------
+The fault is located in UrlValidator.java at line 158. This is where the program splits the input string into the 
+various elements that make up a URL. When the program gets the port number from the string, it only iterates up 
+to three characters.
