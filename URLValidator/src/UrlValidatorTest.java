@@ -59,7 +59,7 @@ public class UrlValidatorTest extends TestCase {
    /*********
     * Authority partitions
     *********/
-   public String[] validAuthorityPartition = { "google.com", "256.255.255.255", "www.google.com" };
+   public String[] validAuthorityPartition = { "google.com", "256.255.255.255", "www.google.ru" };
    public String[] invalidAuthorityPartition = { " ", "255.255.255.255", "0.0.0" };
    public String[][] authorityPartition = { validAuthorityPartition, invalidAuthorityPartition };
 
@@ -114,14 +114,14 @@ public class UrlValidatorTest extends TestCase {
 				  url += urlToTest[l];
 			  }
 
-		      boolean test = validator.isValid(url);
+		      boolean urlValid = validator.isValid(url);
 
-		      if ( test == true ) {
-		        failed[numFail] = url;  // save the failed url
+		      if ( urlValid ) {
+		        passed[numPass] = url;  // save the failed url
 		        numFail++;              // increment the counter
 		      } else {
-		    	passed[numPass] = url;
-		    	numPass++;
+		    	failed[numFail] = url;
+		    	numFail++;
 		      }
 
 		  }
