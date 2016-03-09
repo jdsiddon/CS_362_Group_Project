@@ -41,7 +41,8 @@ Workarounds
 -----------
 If you look in DomainValidator.java, the array of valid country codes (COUNTRY_CODE_TLDS)
 only contains values up to Italy. Beyond Italy no other countries will return as a valid top level domain.
-This should include all countries with a top level domain.
+This should include all countries with a top level domain. The error is on line 357 because that is where the last
+top level domain is included.
 
 
 Attachments
@@ -64,13 +65,4 @@ COUNTRY_CODE_TLDS array of strings being used to validate the top level domain. 
 to see if it did contain the "ru" top level domain. It didn't, which caused isValid()'s call to isValidTld() to return
 false, making the url invalid. 
 
-
-
-testDomainPartitions Description:
-
-The testDomainPartitions method steps through an array of input domains, calling the isValid method on each potential url 
-combination. What make this method helpful for testing is each url is passes to the isValid method consists of valid
-url piece combinations except for a single element. For example a possible url it will pass to isValid is "http//www.google.com/test/testing?t=1"
-what makes this url example helpful is only the url scheme portion of the url is invalid. This lets implements Agan's
-5th testing principle "Only change 1 thing at a time" automatically across multiple tests, helping us localize bugs.
 
