@@ -103,6 +103,18 @@ In report files mention the name of your tests.
 Also mention, how did you work in the team? How did you divide your work? How did you 
 collaborate? 
 
+How We Worked Together
+
+We communicated through email and Google Hangouts. To collaborate during test development we relied
+heavily on our groups Github repo we set up specifically for this project. At each stage 
+of the project, we held a meeting on Google Hangouts and divided the work. For part A, we all contributed to 
+the text document. For part B, we each took a different testing method, researched, then developed the method
+and pushed our tests and with a writeup to the shared repo. Then we all had another group meeting where each of 
+us introduced our test method and walked the rest of the group through the test method. This line-by-line
+code review helped ensure our test methods were functioning the way we intended. Once we accepted the test methods
+we began debugging. Each of us were assigned a bug we didn't actually locate, that way we had to work through
+parts of the code we weren't as familiar with to localize the fault. This helped us better apply Agan's principles
+and write non-biased bug reports.
 
 
 
