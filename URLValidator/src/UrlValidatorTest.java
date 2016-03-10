@@ -46,83 +46,112 @@ public class UrlValidatorTest extends TestCase {
 
    }
 
-   /*********
-    * Query partitions
-    *********/
-   public String validEmptyQueryPartition()
-   {
-	   return " ";
-   }
 
-   public String validQueryPartition()
-   {
-	   return "?test=123";
-   }
-
-
-   /*********
-    * Path partitions
-    *********/
-   public String validPathPartition()
-   {
-	   return "/test";
-   }
-
-   public String invalidPathPartition()
-   {
-	   return " ";
-   }
 
    /*********
     * Scheme partitions
     *********/
-   public String validSchemePartition()
-   {
-	   return "http://";
-   }
-
-   public String misspelledSchemePartition()
-   {
-	   return "htt://";
-   }
-
-   public String badStructureSchemePartition()
-   {
-	   return "http//";
-   }
-
-   public String emptySchemePartition()
-   {
-	   return " ";
-   }
+   public String[] validSchemePartition = { "http://", "https://", "ftp://" };
+   public String[] invalidSchemePartition = { "htt://", "http//", " " };
+   public String[][] schemePartition = { validSchemePartition, invalidSchemePartition };
 
 
    /*********
     * Authority partitions
     *********/
-   public String invalidDomainAuthority()
+   public String[] validAuthorityPartition = { "google.com", "256.255.255.255", "www.google.ru" };
+   public String[] invalidAuthorityPartition = { " ", "255.255.255.255", "0.0.0" };
+   public String[][] authorityPartition = { validAuthorityPartition, invalidAuthorityPartition };
+
+
+   /*********
+    * Path partitions
+    *********/
+   public String[] validPathPartition = { "/test", "/testing-123/" };
+   public String[] invalidPathPartition = { " ", "e/" };
+   public String[][] pathPartition = { validPathPartition, invalidPathPartition };
+
+
+   /*********
+    * Query partitions
+    *********/
+   public String[] validQueryPartition = { " ", "?test=123" };
+   public String[] invalidQueryPartition = { "?test[]", "test=12" };
+   public String[][] queryPartition = { validQueryPartition, invalidQueryPartition };
+
+
+   // Combine partitions into a single array.
+   public String[][][] domainPartitions = { schemePartition, authorityPartition, pathPartition, queryPartition };
+
+   public void testDomainPartitions()
    {
-	   return " ";
+	   String[] partitionUnderTest;
+	   String[] urlToTest = new String[4];							// [ scheme, domain, path, query ];
+	   String[] passed = new String[1000];		// Passed urls.
+	   String[] failed = new String[1000];		// Failed urls.
+	   int numPass = 0, numFail = 0;			// Iterators on pass/fails.
+	   int numLoopsThroughPart = 10;
+
+	   for(int z = 0; z < 100; z++) {
+
+		   for(int i = 0; i < domainPartitions.length; i++)			  		// Loop through each domain partition.
+		   {
+			  for(int j = 0; j < domainPartitions[i][1].length; j++) 		// Loop through invalid partition values.
+			  {
+				  urlToTest[i] = domainPartitions[i][1][j];				// Place current invalid value into url to test.
+
+				  for(int k = 0; k < domainPartitions.length; k++)			// Fill in rest of url with valid values from other partitions.
+				  {
+					  if(k == i)		// don't override our invalid value we are testing.
+						  continue;
+
+					  urlToTest[k] = domainPartitions[k][0][(int)(Math.random() * domainPartitions[k][0].length)];		// Pick and random valid value.
+
+				  }
+
+				  UrlValidator validator = new UrlValidator();
+				  String url = "";
+
+				  // Convert our array of strings to a string.
+				  for(int l = 0; l < urlToTest.length; l++) {
+					  url += urlToTest[l];
+				  }
+
+			      boolean urlValid = validator.isValid(url);
+
+			      if ( urlValid ) {
+			        passed[numPass] = url;  // save the failed url
+			        numPass++;              // increment the counter
+			      } else {
+			    	failed[numFail] = url;
+			    	numFail++;
+			      }
+
+			  }
+		   }
+
+		   numLoopsThroughPart--;
+
+	   }	// Number of times through input partition.
+
+	   // Print out passing and failing urls.
+	   System.out.println("--- Passed ---\n");
+	   int m = 0;
+	   int n = 0;
+	   while(passed[m] != null)
+	   {
+		   System.out.println("Passed: " + passed[m]);
+		   m++;
+	   }
+	   System.out.println("--- Failed ---\n");
+	   while(failed[n] != null)
+	   {
+		   System.out.println("Failed: " + failed[n]);
+		   n++;
+	   }
+
    }
 
-   public String validDomainAuthority()
-   {
-	   return "google.com";
-   }
-
-   public String aboveValidIpAuthority()
-   {
-	   return "256.255.255.255";
-   }
-
-   public String validIpAuthority()
-   {
-	   return "255.255.255.255";
-   }
-
-   public String belowValidIpAuthority() {
-	   return "0.0.0";
-   }
 
 
 
@@ -228,7 +257,9 @@ public class UrlValidatorTest extends TestCase {
 	     {
 	    	 url = schemes[scheme_index] + authority[authority_index] + ports[ports_index] + badPath[bad_path_index] + queries[queries_index];
 	     }
-        
+
+	     //System.out.println(i + " : " + url + "\n");
+
          UrlValidator validator =  new UrlValidator();
          boolean test = validator.isValid(url);
          if ( test == true ) {
