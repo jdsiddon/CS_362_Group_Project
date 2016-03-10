@@ -45,86 +45,86 @@ public class UrlValidatorTest extends TestCase {
 
 
    }
-  
-   /********* 
+
+   /*********
     * Query partitions
     *********/
    public String validEmptyQueryPartition()
    {
 	   return " ";
    }
-   
+
    public String validQueryPartition()
    {
 	   return "?test=123";
    }
-   
-   
-   /********* 
+
+
+   /*********
     * Path partitions
     *********/
    public String validPathPartition()
    {
 	   return "/test";
    }
-   
+
    public String invalidPathPartition()
    {
 	   return " ";
    }
 
-   /********* 
+   /*********
     * Scheme partitions
     *********/
    public String validSchemePartition()
    {
 	   return "http://";
    }
-   
+
    public String misspelledSchemePartition()
    {
 	   return "htt://";
    }
-   
+
    public String badStructureSchemePartition()
    {
 	   return "http//";
    }
-   
+
    public String emptySchemePartition()
    {
 	   return " ";
    }
 
-   
-   /********* 
+
+   /*********
     * Authority partitions
     *********/
-   public String invalidDomainAuthority() 
+   public String invalidDomainAuthority()
    {
 	   return " ";
    }
-   
+
    public String validDomainAuthority()
    {
 	   return "google.com";
    }
-   
-   public String aboveValidIpAuthority() 
+
+   public String aboveValidIpAuthority()
    {
 	   return "256.255.255.255";
    }
-   
-   public String validIpAuthority() 
+
+   public String validIpAuthority()
    {
 	   return "255.255.255.255";
    }
-   
+
    public String belowValidIpAuthority() {
 	   return "0.0.0";
    }
-   
-   
+
+
 
    public void testIsValid()
    {
@@ -164,28 +164,28 @@ public class UrlValidatorTest extends TestCase {
         r++;              // increment the counter
       }
      } //end for loop
-     	 
+
      /* Print out number of bugs and failed urls */
      System.out.println("Valid Url Tests found " + bugs + " bugs. \n");
      System.out.println("Failed urls: \n");
      for ( int i=0; i< failed.length; i++) {
        if ( failed[i] != null ) System.out.println( i + " : " + failed[i] + "\n");
      }
-     
+
      System.out.println("Valid Url Tests Complete");
 	 /* Test Invalid Urls */
      bugs = 0;
      r = 0;
      /* Invalid Passed Urls */
      String[] passed = new String[length]; // will hold the invalid urls which pass
-     
+
      /* Invalid Pieces */
      String[] badSchemes 	= { "3ht://", "http:", "http:/", "://", "http/" };
      String[] badAuthority 	= { "www.google.1com", "256.256.256.256", "16.16.16.16.16", "55.55.55", ".255.255.255.255", "192.68.102.10.", "abc", "abc.123" };
      String[] badPorts 		= { ":-1", ":8888a", ":70000", "22000" };
      String[] badPath 		= { "/..", "/../", "/path/to//file", "//#" };
      String[] badOptions 	= { "/../", "/#", "/test//file" };
-     
+
      /* Create a random string made up of valid url pieces and one invalid piece */
      for(int i = 0; i < length; i++)
 	 {
@@ -196,8 +196,8 @@ public class UrlValidatorTest extends TestCase {
          int path_index      = (int) (Math.random() * 4);
          int options_index   = (int) (Math.random() * 4);
          int queries_index   = (int) (Math.random() * 3);
-         
-         
+
+
          /* Replace One Piece with an Invalid Piece */
          /* Reassign Indices to Invalid Pieces */
 		 int bad_scheme_index 		= (int) (Math.random() * 4);
@@ -206,10 +206,10 @@ public class UrlValidatorTest extends TestCase {
 		 int bad_path_index      	= (int) (Math.random() * 3);
 		 int bad_options_index   	= (int) (Math.random() * 2);
 		 int bad_queries_index   	= (int) (Math.random() * 3);
-	     
+
 	     /* Choose the Piece to Replace */
 	     int replace_piece		= (int) (Math.random() * 3);
-	     
+
 	     /* Create a random string made up of valid url pieces and on invalid piece */
 	     String url;
 	     if ( replace_piece == 0 )		//Replace scheme
@@ -228,9 +228,7 @@ public class UrlValidatorTest extends TestCase {
 	     {
 	    	 url = schemes[scheme_index] + authority[authority_index] + ports[ports_index] + badPath[bad_path_index] + queries[queries_index];
 	     }
-	     
-	     //System.out.println(i + " : " + url + "\n");
-         
+        
          UrlValidator validator =  new UrlValidator();
          boolean test = validator.isValid(url);
          if ( test == true ) {
