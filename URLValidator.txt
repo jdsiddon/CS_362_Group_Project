@@ -65,9 +65,8 @@ details in the report:
 
 Clearly mention your methodology of testing.
 For manual testing, provide some of your (not all) urls.
-
-
-
+"http:/en.wikipediA.org"	"http//en.wikipediA.org""http:///en.wikipediA.org""http://www.en.wikipediA.org""http://wwwwwwww.en.wikipediA.org""http://w.en.wikipediA.org""http://org.en.wikipediA.www""http://en.wikipediA.org""http://rrr.en.wikipediA.org""http://kkk.en.wikipediA.org""http://WWW.en.wikipediA.org""http://en.wikipedi>A.org""http://en.wikipediA.oRg""http://en.wiki?pediA.org""http://en.wiki[p]ediA.org""http://en.wik'i'pediA.org""http://en.w>ikipediA.org""http://en.wikipediA0.org""http://www.1234.com"));	
+"http://en.wikipediA.org"));	"htps://www.oregonstate.edu"));	"tttt://www.oregonstate.edu"));	
 
 For partitioning, mention your partitions with reasons.
 
